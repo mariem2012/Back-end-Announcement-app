@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  ANNONCEUR
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")  
+}
+
+model User {
+  id                Int       @id @default(autoincrement())  
+  password          String    @db.VarChar(100)
+  name              String    @db.VarChar(100)
+  status            Boolean   @default(true)
+  email             String    @unique @db.VarChar(100)        
+  phone             String?   @unique @db.VarChar(50)                
+  address           String?   @db.VarChar(100)                
+  role              Role    @default(ANNONCEUR)
+  registration_date DateTime  
+  lat               String?   
+  lng               String?   
+
+  categories       Category[]
+  announcements     Announcement[]     
+ @@map("users")
+}
+
+model Category {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique @db.VarChar(100)
+  status Boolean             @default(true)
+  user_id Int 
+  user   User      @relation(fields: [user_id], references: [id])
+      
+
+  announcements Announcement[] 
+   @@map("categories")
+}
+
+
+model Announcement {
+  id               Int        @id @default(autoincrement())
+  title            String     @db.VarChar(100)
+  price            Decimal    @db.Decimal(10, 2)
+  publication_date DateTime
+  status           Boolean    @default(true)    
+  picture          String?    
+  description      String?    
+
+ 
+  user   User      @relation(fields: [user_id], references: [id])
+  user_id Int      
+
+  category   Category @relation(fields: [category_id], references: [id])
+  category_id Int  
+  @@map("announcements")
+}
