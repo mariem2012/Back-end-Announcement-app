@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv  from 'dotenv';
 // import categoryRoutes from './src/routes/categoryRoutes.js'
-// import userRoutes from './src/routes/userRoutes.js';
+import userRoutes from './src/routes/userRoutes.js';
 
 // import announcementRoutes from './src/routes/announcementRoutes.js'
 // import authRoutes from './src/routes/authRoutes.js';
@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 // Routes
-// app.use('/api/users', userRoutes);
+app.use('/users', userRoutes);
 // app.use('/categories', categoryRoutes);
 // app.use('/users', userRoutes);
 // app.use('/api/announcements', announcementRoutes);
@@ -29,7 +29,7 @@ app.use((_req, res, _next) => {
 
 
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3500;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
