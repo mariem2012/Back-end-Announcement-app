@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv  from 'dotenv';
-// import categoryRoutes from './src/routes/categoryRoutes.js'
+import categoryRoutes from './src/routes/categoryRoutes.js'
 import userRoutes from './src/routes/userRoutes.js';
 
 // import announcementRoutes from './src/routes/announcementRoutes.js'
@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/users', userRoutes);
-// app.use('/categories', categoryRoutes);
+app.use('/categories', categoryRoutes);
 // app.use('/users', userRoutes);
 // app.use('/api/announcements', announcementRoutes);
 
