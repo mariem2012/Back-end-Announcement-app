@@ -49,8 +49,10 @@ model Announcement {
   price            Decimal    @db.Decimal(10, 2)
   publication_date DateTime
   status           Boolean    @default(true)    
-  picture          String?    
-  description      String?    
+  picture          String[]    @db.Text  
+  description      String?    @db.Text  
+  latitude         Float     // Latitude pour la géolocalisation
+  longitude        Float  
 
  
   user   User      @relation(fields: [user_id], references: [id])

@@ -38,16 +38,24 @@ class CategoryController {
   static async getById(req, res) {
     try {
       const { id } = req.params;
-      const category = await prisma.category.findUnique({
-        where: { id: parseInt(id, 10) }
-      });
-      if (!category) {
-        return res.status(StatusCodes.NOT_FOUND).json({ error: 'Category not found' });
+
+      // Vérifiez si l'id est bien défini
+      if (!id) {
+          return res.status(400).json({ error: "Category ID is required!" });
       }
-      res.status(StatusCodes.OK).json(category);
-    } catch (error) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
-    }
+
+      const category = await prisma.category.findUnique({
+          where: { id: parseInt(id, 10) }
+      });
+
+      if (!category) {
+          return res.status(404).json({ error: "Category not found!" });
+      }
+
+      res.status(200).json(category);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
   }
 
   static async update(req, res) {
