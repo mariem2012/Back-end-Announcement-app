@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import dotenv  from 'dotenv';
 import categoryRoutes from './src/routes/categoryRoutes.js'
@@ -9,6 +10,15 @@ import announcementRoutes from './src/routes/announcementRoutes.js'
 dotenv.config();  
 
 const app = express();
+
+const corsOptions = {
+  origin: 'http://localhost:5173', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type'],
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(bodyParser.json());
 

@@ -2,7 +2,6 @@ import { check, param, validationResult } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
 import prisma from '../../config/prisma.js';
 
-// Validation pour créer une annonce
 const addAnnouncementValidator = [
   check('title')
     .notEmpty()
@@ -28,12 +27,12 @@ const addAnnouncementValidator = [
     .isFloat({ min: 0 })
     .withMessage('Price must be a positive number!'),
 
-  check('photos')
+  check('pictures')
     .optional()
     .isArray()
-    .withMessage('Photos must be an array of URLs!')
-    .custom((photos) => photos.every(photo => /^https?:\/\/.*\.(jpg|jpeg|png)$/.test(photo)))
-    .withMessage('Each photo must be a valid URL ending in jpg, jpeg, or png!'),
+    .withMessage('Pictures must be an array of URLs!')
+    .custom((pictures) => pictures.every(picture => /^https?:\/\/.*\.(jpg|jpeg|png)$/.test(picture)))
+    .withMessage('Each picture must be a valid URL ending in jpg, jpeg, or png!'),
 
   check('category_id')
     .notEmpty()
@@ -50,14 +49,11 @@ const addAnnouncementValidator = [
       return true;
     }),
 
-  check('latitude')
-    .optional()
-    .isFloat({ min: -90, max: 90 }).withMessage('Latitude must be between -90 and 90.'),
-
-  check('longitude')
-    .optional()
-    .isFloat({ min: -180, max: 180 }).withMessage('Longitude must be between -180 and 180.'),
-
+  check('publish_date')
+    .notEmpty()
+    .withMessage('Publish date is required!')
+    .isISO8601()
+    .withMessage('Publish date must be a valid date!'),
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -68,7 +64,6 @@ const addAnnouncementValidator = [
   },
 ];
 
-// Validation pour mettre à jour une annonce
 const updateAnnouncementValidator = [
   param('id')
     .notEmpty()
@@ -97,12 +92,12 @@ const updateAnnouncementValidator = [
     .isFloat({ min: 0 })
     .withMessage('Price must be a positive number!'),
 
-  check('photos')
+  check('pictures')
     .optional()
     .isArray()
-    .withMessage('Photos must be an array of URLs!')
-    .custom((photos) => photos.every(photo => /^https?:\/\/.*\.(jpg|jpeg|png)$/.test(photo)))
-    .withMessage('Each photo must be a valid URL ending in jpg, jpeg, or png!'),
+    .withMessage('Pictures must be an array of URLs!')
+    .custom((pictures) => pictures.every(picture => /^https?:\/\/.*\.(jpg|jpeg|png)$/.test(picture)))
+    .withMessage('Each picture must be a valid URL ending in jpg, jpeg, or png!'),
 
   check('category_id')
     .optional()
@@ -118,6 +113,11 @@ const updateAnnouncementValidator = [
       return true;
     }),
 
+  check('publish_date')
+    .optional()
+    .isISO8601()
+    .withMessage('Publish date must be a valid date!'),
+
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -127,7 +127,6 @@ const updateAnnouncementValidator = [
   },
 ];
 
-// Validation pour supprimer une annonce
 const deleteAnnouncementValidator = [
   param('id')
     .isInt()
