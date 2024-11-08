@@ -8,32 +8,18 @@ import {
 
 const router = express.Router();
 
-router.post(
-  '/',
-  addAnnouncementValidator,           
-  AnnouncementController.create        
-);
+router.post('/', addAnnouncementValidator, AnnouncementController.create);
 
-router.put(
-  '/:id',
-  updateAnnouncementValidator,        
-  AnnouncementController.update        
-);
+router.put('/:id', updateAnnouncementValidator, AnnouncementController.update);
 
 router.delete(
   '/:id',
-  deleteAnnouncementValidator,         
-  AnnouncementController.delete        
+  deleteAnnouncementValidator,
+  AnnouncementController.delete
 );
 
-router.get(
-  '/:id',
-  AnnouncementController.getAnnouncement  
-);
+router.get('/:id', AnnouncementController.getAnnouncement);
 
-router.get(
-  '/',
-  AnnouncementController.getAllAnnouncements 
-);
+router.get('/', AnnouncementController.getAllAnnouncements);
 
 export default router;

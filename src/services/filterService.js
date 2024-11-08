@@ -8,7 +8,7 @@
 //     if (category) where.categoryId = category;
 //     if (minPrice || maxPrice) where.price = { gte: minPrice || 0, lte: maxPrice || 999999 };
 //     if (userId) where.userId = userId;
-    
+
 //     let announcements = await prisma.announcement.findMany({ where });
 
 //     if (lat && lng && maxDistance) {

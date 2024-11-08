@@ -1,6 +1,10 @@
 import express from 'express';
 import UserController from '../controllers/userController.js';
-import { addUserValidator, updateUserValidator, deleteUserValidator } from '../middlewares/validators/userValidation.js';
+import {
+  addUserValidator,
+  updateUserValidator,
+  deleteUserValidator,
+} from '../middlewares/validators/userValidation.js';
 
 const router = express.Router();
 

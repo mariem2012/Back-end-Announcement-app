@@ -13,6 +13,5 @@
 //       return R * c; // Distance en km
 //     },
 //   };
-  
+
 //   module.exports = geoService;
-  

@@ -4,12 +4,13 @@ import prisma from '../config/prisma.js';
 class UserController {
   static async create(req, res) {
     try {
-      const { name, email, password, phone, address, role, lat, lng } = req.body;
+      const { name, email, password, phone, address, role, lat, lng } =
+        req.body;
       const user = await prisma.user.create({
         data: {
           name,
           email,
-          password, 
+          password,
           phone,
           address,
           role,
@@ -19,10 +20,13 @@ class UserController {
         },
       });
       res.status(StatusCodes.CREATED).json({
-        message: 'User created successfully!', user
+        message: 'User created successfully!',
+        user,
       });
     } catch (error) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: error.message });
     }
   }
 
@@ -31,20 +35,28 @@ class UserController {
       const users = await prisma.user.findMany();
       res.status(StatusCodes.OK).json(users);
     } catch (error) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: error.message });
     }
   }
 
   static async getById(req, res) {
     try {
       const { id } = req.params;
-      const user = await prisma.user.findUnique({ where: { id: parseInt(id, 10) } });
+      const user = await prisma.user.findUnique({
+        where: { id: parseInt(id, 10) },
+      });
       if (!user) {
-        return res.status(StatusCodes.NOT_FOUND).json({ error: 'User not found' });
+        return res
+          .status(StatusCodes.NOT_FOUND)
+          .json({ error: 'User not found' });
       }
       res.status(StatusCodes.OK).json(user);
     } catch (error) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: error.message });
     }
   }
 
@@ -57,10 +69,13 @@ class UserController {
         data: { name, email, phone, address, role, lat, lng, status },
       });
       res.status(StatusCodes.OK).json({
-        message: 'User updated successfully!', user
+        message: 'User updated successfully!',
+        user,
       });
     } catch (error) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: error.message });
     }
   }
 
@@ -69,10 +84,12 @@ class UserController {
       const { id } = req.params;
       await prisma.user.delete({ where: { id: parseInt(id, 10) } });
       res.status(StatusCodes.NO_CONTENT).send({
-        message: 'User deleted successfully!'
+        message: 'User deleted successfully!',
       });
     } catch (error) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: error.message });
     }
   }
 }

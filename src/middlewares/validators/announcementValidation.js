@@ -31,8 +31,14 @@ const addAnnouncementValidator = [
     .optional()
     .isArray()
     .withMessage('Pictures must be an array of URLs!')
-    .custom((pictures) => pictures.every(picture => /^https?:\/\/.*\.(jpg|jpeg|png)$/.test(picture)))
-    .withMessage('Each picture must be a valid URL ending in jpg, jpeg, or png!'),
+    .custom((pictures) =>
+      pictures.every((picture) =>
+        /^https?:\/\/.*\.(jpg|jpeg|png)$/.test(picture)
+      )
+    )
+    .withMessage(
+      'Each picture must be a valid URL ending in jpg, jpeg, or png!'
+    ),
 
   check('category_id')
     .notEmpty()
@@ -58,7 +64,9 @@ const addAnnouncementValidator = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ errors: errors.array() });
+      return res
+        .status(StatusCodes.UNPROCESSABLE_ENTITY)
+        .json({ errors: errors.array() });
     }
     next();
   },
@@ -96,8 +104,14 @@ const updateAnnouncementValidator = [
     .optional()
     .isArray()
     .withMessage('Pictures must be an array of URLs!')
-    .custom((pictures) => pictures.every(picture => /^https?:\/\/.*\.(jpg|jpeg|png)$/.test(picture)))
-    .withMessage('Each picture must be a valid URL ending in jpg, jpeg, or png!'),
+    .custom((pictures) =>
+      pictures.every((picture) =>
+        /^https?:\/\/.*\.(jpg|jpeg|png)$/.test(picture)
+      )
+    )
+    .withMessage(
+      'Each picture must be a valid URL ending in jpg, jpeg, or png!'
+    ),
 
   check('category_id')
     .optional()
@@ -121,21 +135,23 @@ const updateAnnouncementValidator = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ errors: errors.array() });
+      return res
+        .status(StatusCodes.UNPROCESSABLE_ENTITY)
+        .json({ errors: errors.array() });
     }
     next();
   },
 ];
 
 const deleteAnnouncementValidator = [
-  param('id')
-    .isInt()
-    .withMessage('Announcement ID must be a number!'),
+  param('id').isInt().withMessage('Announcement ID must be a number!'),
 
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ errors: errors.array() });
+      return res
+        .status(StatusCodes.UNPROCESSABLE_ENTITY)
+        .json({ errors: errors.array() });
     }
     next();
   },
@@ -144,5 +160,5 @@ const deleteAnnouncementValidator = [
 export {
   addAnnouncementValidator,
   updateAnnouncementValidator,
-  deleteAnnouncementValidator
+  deleteAnnouncementValidator,
 };

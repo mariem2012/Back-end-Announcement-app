@@ -4,19 +4,23 @@ import prisma from '../../config/prisma.js';
 
 const addUserValidator = [
   check('name')
-    .notEmpty().withMessage('Name is required!')
-    .isString().withMessage("Name can't be a number!")
+    .notEmpty()
+    .withMessage('Name is required!')
+    .isString()
+    .withMessage("Name can't be a number!")
     .bail()
-    .isLength({ min: 6 })
-    .withMessage('Name must be at most 6 characters long!')
+    .isLength({ min: 3 })
+    .withMessage('Name must be at most 3 characters long!')
     .isLength({ max: 100 })
     .withMessage('Name must be at most 100 characters long!')
     .matches(/^[a-zA-Z\s]+$/)
     .withMessage("Name can't contain numbers or special characters!"),
 
   check('email')
-    .notEmpty().withMessage('Email is required!')
-    .isEmail().withMessage('Invalid email format!')
+    .notEmpty()
+    .withMessage('Email is required!')
+    .isEmail()
+    .withMessage('Invalid email format!')
     .custom(async (value) => {
       const existingUser = await prisma.user.findUnique({
         where: { email: value },
@@ -27,15 +31,18 @@ const addUserValidator = [
       return true;
     }),
 
-
   check('password')
-    .notEmpty().withMessage('Password is required!')
-    .isLength({ min: 8 }).withMessage('Password must be at least 8 characters long!'),
+    .notEmpty()
+    .withMessage('Password is required!')
+    .isLength({ min: 8 })
+    .withMessage('Password must be at least 8 characters long!'),
 
   check('phone')
     .optional()
-    .isString().withMessage('Phone must be a string!')
-    .isLength({ max: 50 }).withMessage('Phone must be at most 50 characters long!')
+    .isString()
+    .withMessage('Phone must be a string!')
+    .isLength({ max: 50 })
+    .withMessage('Phone must be at most 50 characters long!')
     .custom(async (value) => {
       if (value) {
         const existingUser = await prisma.user.findUnique({
@@ -47,14 +54,14 @@ const addUserValidator = [
       }
       return true;
     }),
-    (req, res, next) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty())
-        return res
-          .status(StatusCodes.UNPROCESSABLE_ENTITY)
-          .json({ errors: errors.array() });
-      next();
-    },
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res
+        .status(StatusCodes.UNPROCESSABLE_ENTITY)
+        .json({ errors: errors.array() });
+    next();
+  },
 ];
 
 const updateUserValidator = [
@@ -68,9 +75,9 @@ const updateUserValidator = [
     .notEmpty()
     .withMessage('Name is required!')
     .isString()
-    .withMessage("Name must be a string!")
-    .isLength({ min: 6 })
-    .withMessage('Name must be at most 6 characters long!')
+    .withMessage('Name must be a string!')
+    .isLength({ min: 3 })
+    .withMessage('Name must be at most 3 characters long!')
     .isLength({ max: 100 })
     .withMessage('Name must be at most 100 characters long!')
     .matches(/^[a-zA-Z\s]+$/)
@@ -135,8 +142,6 @@ const updateUserValidator = [
   },
 ];
 
-
-
 const deleteUserValidator = [
   param('id')
     .notEmpty()
@@ -157,7 +162,9 @@ const deleteUserValidator = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ errors: errors.array() });
+      return res
+        .status(StatusCodes.UNPROCESSABLE_ENTITY)
+        .json({ errors: errors.array() });
     }
     next();
   },

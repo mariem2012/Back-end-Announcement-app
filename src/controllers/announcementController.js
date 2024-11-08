@@ -1,43 +1,57 @@
 import { StatusCodes } from 'http-status-codes';
 import prisma from '../config/prisma.js';
 
-  // vraie code avant ajout de proprietés geographique
-  // static async create(req, res) {
-  //   try {
-  //     const { title, description, price, status, category_id, user_id } = req.body;
+// vraie code avant ajout de proprietés geographique
+// static async create(req, res) {
+//   try {
+//     const { title, description, price, status, category_id, user_id } = req.body;
 
-  //     const announcement = await prisma.announcement.create({
-  //       data: {
-  //         title,
-  //         description,
-  //         price: parseFloat(price),
-  //         status,
-  //         category: { connect: { id: category_id } },
-  //         user: { connect: { id: user_id } }
-  //       },
-  //     });
+//     const announcement = await prisma.announcement.create({
+//       data: {
+//         title,
+//         description,
+//         price: parseFloat(price),
+//         status,
+//         category: { connect: { id: category_id } },
+//         user: { connect: { id: user_id } }
+//       },
+//     });
 
-  //     res.status(StatusCodes.CREATED).json({
-  //       message: 'Announcement created successfully!',
-  //       announcement
-  //     });
-  //   } catch (error) {
-  //     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
-  //   }
-  // }
+//     res.status(StatusCodes.CREATED).json({
+//       message: 'Announcement created successfully!',
+//       announcement
+//     });
+//   } catch (error) {
+//     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+//   }
+// }
 
-  // Update an existing announcement
-
- 
+// Update an existing announcement
 
 class AnnouncementController {
-  
   static async create(req, res) {
     try {
-      const { title, description, price, category_id, user_id, picture, publish_date } = req.body;
+      const {
+        title,
+        description,
+        price,
+        category_id,
+        user_id,
+        picture,
+        publish_date,
+      } = req.body;
 
-      if (!title || !description || !price || !category_id || !user_id || !publish_date) {
-        return res.status(StatusCodes.BAD_REQUEST).json({ error: 'All fields are required!' });
+      if (
+        !title ||
+        !description ||
+        !price ||
+        !category_id ||
+        !user_id ||
+        !publish_date
+      ) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ error: 'All fields are required!' });
       }
 
       const announcement = await prisma.announcement.create({
@@ -45,11 +59,11 @@ class AnnouncementController {
           title,
           description,
           price,
-          status: true,  
+          status: true,
           publish_date: new Date(publish_date),
           category: { connect: { id: category_id } },
           user: { connect: { id: user_id } },
-          picture,  
+          picture,
         },
       });
 
@@ -58,14 +72,24 @@ class AnnouncementController {
         announcement,
       });
     } catch (error) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: error.message });
     }
   }
 
   static async update(req, res) {
     try {
       const { id } = req.params;
-      const { title, description, price, status, category_id, user_id, publish_date } = req.body;
+      const {
+        title,
+        description,
+        price,
+        status,
+        category_id,
+        user_id,
+        publish_date,
+      } = req.body;
 
       const data = {};
       if (title) data.title = title;
@@ -86,7 +110,9 @@ class AnnouncementController {
         announcement,
       });
     } catch (error) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: error.message });
     }
   }
 
@@ -96,9 +122,13 @@ class AnnouncementController {
       await prisma.announcement.delete({
         where: { id: parseInt(id, 10) },
       });
-      res.status(StatusCodes.OK).json({ message: 'Announcement deleted successfully!' });
+      res
+        .status(StatusCodes.OK)
+        .json({ message: 'Announcement deleted successfully!' });
     } catch (error) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: error.message });
     }
   }
 
@@ -109,11 +139,15 @@ class AnnouncementController {
         where: { id: parseInt(id, 10) },
       });
       if (!announcement) {
-        return res.status(StatusCodes.NOT_FOUND).json({ error: 'Announcement not found!' });
+        return res
+          .status(StatusCodes.NOT_FOUND)
+          .json({ error: 'Announcement not found!' });
       }
       res.status(StatusCodes.OK).json(announcement);
     } catch (error) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: error.message });
     }
   }
 
@@ -128,7 +162,9 @@ class AnnouncementController {
       });
       res.status(StatusCodes.OK).json(announcements);
     } catch (error) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: error.message });
     }
   }
 }

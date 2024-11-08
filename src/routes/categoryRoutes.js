@@ -1,6 +1,10 @@
 import express from 'express';
 import CategoryController from '../controllers/categoryController.js';
-import { addCategoryValidator, updateCategoryValidator, deleteCategoryValidator } from '../middlewares/validators/categoryValidation.js';
+import {
+  addCategoryValidator,
+  updateCategoryValidator,
+  deleteCategoryValidator,
+} from '../middlewares/validators/categoryValidation.js';
 
 const router = express.Router();
 
