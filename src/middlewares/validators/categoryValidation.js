@@ -8,7 +8,7 @@ const addCategoryValidator = [
     .withMessage('Name is required!')
     .isString()
     .isLength({ min: 3 })
-    .withMessage('Name must be at most 3 characters long!')
+    .withMessage('Name must be at least 3 characters long!')
     .withMessage('Name must be a string!')
     .isLength({ max: 100 })
     .withMessage('Name must be at most 100 characters long!')
@@ -24,6 +24,12 @@ const addCategoryValidator = [
       }
       return true;
     }),
+
+    check('user_id')
+    .optional()
+    .isInt()
+    .withMessage('User ID must be a valid integer!'),
+
 
   check('status')
     .optional()
@@ -54,7 +60,7 @@ const updateCategoryValidator = [
     .isString()
     .withMessage('Name must be a string!')
     .isLength({ min: 3 })
-    .withMessage('Name must be at most 3 characters long!')
+    .withMessage('Name must be at least 3 characters long!')
     .isLength({ max: 100 })
     .withMessage('Name must be at most 100 characters long!')
     .matches(/^[a-zA-Z\s]+$/)

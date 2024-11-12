@@ -9,9 +9,9 @@ class CategoryController {
         data: {
           name,
           status,
-          user: {
-            connect: { id: user_id },
-          },
+          // user: {
+          //   connect: { id: user_id },
+          // },
         },
       });
 

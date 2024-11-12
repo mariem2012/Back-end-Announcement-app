@@ -31,12 +31,13 @@ import prisma from '../config/prisma.js';
 class AnnouncementController {
   static async create(req, res) {
     try {
+      
       const {
         title,
         description,
         price,
         category_id,
-        user_id,
+        // user_id,
         picture,
         publish_date,
       } = req.body;
@@ -46,7 +47,7 @@ class AnnouncementController {
         !description ||
         !price ||
         !category_id ||
-        !user_id ||
+        // !user_id ||
         !publish_date
       ) {
         return res
@@ -62,8 +63,8 @@ class AnnouncementController {
           status: true,
           publish_date: new Date(publish_date),
           category: { connect: { id: category_id } },
-          user: { connect: { id: user_id } },
-          picture,
+          // user: { connect: { id: user_id } },
+          picture: Array.isArray(req.body.picture) ? req.body.picture : [req.body.picture]
         },
       });
 
@@ -71,6 +72,7 @@ class AnnouncementController {
         message: 'Announcement created successfully!',
         announcement,
       });
+      console.log('Données reçues pour la création:', req.body);
     } catch (error) {
       res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
