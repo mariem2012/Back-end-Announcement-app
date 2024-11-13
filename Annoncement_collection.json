@@ -1,0 +1,106 @@
+{
+	"info": {
+		"_postman_id": "b440f0b7-b17b-440a-8069-56591fc79239",
+		"name": "Annoncement-Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "38098654"
+	},
+	"item": [
+		{
+			"name": "GET-Annoncements",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Vente de vetements\",\r\n    \"description\": \"Vélo de route en excellent état, utilisé très peu.\",\r\n    \"price\": 150.00,\r\n    \"category_id\": 2,\r\n    \"user_id\": 5,\r\n    \"picture\": \"\",\r\n    \"latitude\": 48.8566,  \r\n    \"longitude\": 2.3522,   \r\n    \"publication_date\": \"2024-11-01T23:47:51.635Z\"  \r\n}\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:3500/announcements/4"
+			},
+			"response": []
+		},
+		{
+			"name": "POST-Announcements",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": 1,\r\n        \"title\": \"Appartement … vendre\",\r\n        \"price\": \"250000\",\r\n        \"publish_date\": \"2024-11-12T17:58:37.209Z\",\r\n        \"status\": true,\r\n        \"picture\": [\r\n            \"img1.jpg\",\r\n            \"img2.jpg\"\r\n        ],\r\n        \"description\": \"Appartement lumineux dans le centre-ville\",\r\n        \"user_id\": null,\r\n        \"category_id\": 1\r\n    }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:3500/announcements"
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"admin@admin.com\", \r\n    \"password\": \"password123\"\r\n    }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:3500/login"
+			},
+			"response": []
+		},
+		{
+			"name": "user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n        \"name\": \"Bob Martin\",           \r\n        \"email\": \"admin@admin.com\",\r\n        \"password\": \"password123\",\r\n        \"phone\": \"0987600321\",\r\n        \"address\": \"456 Rue de Lyon\",\r\n        \"role\": \"ANNONCEUR\",\r\n        \"lat\": \"45.7640\",\r\n        \"lng\": \"4.8357\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:3500/users/add"
+			},
+			"response": []
+		},
+		{
+			"name": "Annoncements",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:3500/announcements"
+			},
+			"response": []
+		},
+		{
+			"name": "users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNzMxNDM5MzgxLCJleHAiOjE3MzE0NDI5ODF9.jJAYtQH_0iCO5d4W91BDrRFqgwxibQGyJFiDXoAsb3g"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "localhost:3500/users"
+			},
+			"response": []
+		}
+	]
+}
