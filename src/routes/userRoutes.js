@@ -6,12 +6,19 @@ import {
   deleteUserValidator,
 } from '../middlewares/validators/userValidation.js';
 
+
+import { authMiddleware, verifyRole } from '../middlewares/authMiddleware.js';
+
+
 const router = express.Router();
 
-router.post('/add', addUserValidator, UserController.create);
-router.get('/', UserController.getAll);
-router.get('/:id', UserController.getById);
-router.put('/:id', updateUserValidator, UserController.update);
-router.delete('/:id', deleteUserValidator, UserController.delete);
+router.post('/add', authMiddleware, verifyRole(['ADMIN']), addUserValidator, UserController.create);
+router.get('/', authMiddleware, verifyRole(['ADMIN']), UserController.getAll);
+router.get('/:id', authMiddleware, UserController.getById);
+router.put('/:id', authMiddleware, verifyRole(['ADMIN']),updateUserValidator, UserController.update);
+router.delete('/:id', authMiddleware, verifyRole(['ADMIN']), deleteUserValidator, UserController.delete);
+router.put('/user/change-password', authMiddleware, UserController.changePassword);
+// router.get('/currentUser', authMiddleware, UserController.getCurrentUser);
+
 
 export default router;

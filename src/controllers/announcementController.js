@@ -1,32 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import prisma from '../config/prisma.js';
+import jwt from 'jsonwebtoken';
 
-// vraie code avant ajout de proprietés geographique
-// static async create(req, res) {
-//   try {
-//     const { title, description, price, status, category_id, user_id } = req.body;
-
-//     const announcement = await prisma.announcement.create({
-//       data: {
-//         title,
-//         description,
-//         price: parseFloat(price),
-//         status,
-//         category: { connect: { id: category_id } },
-//         user: { connect: { id: user_id } }
-//       },
-//     });
-
-//     res.status(StatusCodes.CREATED).json({
-//       message: 'Announcement created successfully!',
-//       announcement
-//     });
-//   } catch (error) {
-//     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
-//   }
-// }
-
-// Update an existing announcement
 
 class AnnouncementController {
   static async create(req, res) {
@@ -37,10 +12,16 @@ class AnnouncementController {
         description,
         price,
         category_id,
-        // user_id,
+        // user_id=null,
         picture,
         publish_date,
       } = req.body;
+
+      const token = req.header('Authorization')?.replace('Bearer ', '');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user_id = decoded.userId;
+        console.log('utilisateur recuper',user_id)     
+    
 
       if (
         !title ||
@@ -63,7 +44,7 @@ class AnnouncementController {
           status: true,
           publish_date: new Date(publish_date),
           category: { connect: { id: category_id } },
-          // user: { connect: { id: user_id } },
+          user: { connect: { id: user_id } },
           picture: Array.isArray(req.body.picture) ? req.body.picture : [req.body.picture]
         },
       });
@@ -134,7 +115,7 @@ class AnnouncementController {
     }
   }
 
-  static async getAnnouncement(req, res) {
+  static async getAnnouncementById(req, res) {
     try {
       const { id } = req.params;
       const announcement = await prisma.announcement.findUnique({
@@ -152,6 +133,32 @@ class AnnouncementController {
         .json({ error: error.message });
     }
   }
+
+  static async getAnnouncementByUserId(req, res) {
+    try {
+      const { id } = req.params;
+      const announcements = await prisma.announcement.findMany({
+        where: { user_id: parseInt(id, 10) }, 
+        include: {
+          user: true, 
+          category: true, 
+        },
+      });
+  
+      if (announcements.length === 0) {
+        return res
+          .status(StatusCodes.NOT_FOUND)
+          .json({ error: 'No announcements found for this user!' });
+      }
+  
+      res.status(StatusCodes.OK).json(announcements);
+    } catch (error) {
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: error.message });
+    }
+  }
+  
 
   static async getAllAnnouncements(req, res) {
     try {
