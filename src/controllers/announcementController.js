@@ -120,6 +120,24 @@ class AnnouncementController {
       const { id } = req.params;
       const announcement = await prisma.announcement.findUnique({
         where: { id: parseInt(id, 10) },
+        include: {
+          user: {
+            select:{
+              id: true,
+              name: true,
+              address: true,
+              phone: true,
+              email: true,
+            }
+          },
+          category:{
+            select: {
+              id: true,
+              name: true,
+              status: true
+            }
+          }
+        },
       });
       if (!announcement) {
         return res
