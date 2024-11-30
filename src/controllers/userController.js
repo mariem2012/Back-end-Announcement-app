@@ -254,10 +254,13 @@ class UserController {
         },
       });
 
-      res.status(StatusCodes.CREATED).json({
-        message: 'User created successfully!',
-        user,
-      });
+      const { password: _, ...userWithoutPassword } = user;
+
+        res.status(StatusCodes.CREATED).json({
+            message: 'User created successfully!',
+            user: userWithoutPassword, 
+        });
+        
     } catch (error) {
       if (error.code === 'P2002') {
         return res.status(StatusCodes.CONFLICT).json({

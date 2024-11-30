@@ -1,7 +1,18 @@
 import { check, param, validationResult } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
 import prisma from '../../config/prisma.js';
+const handleValidationErrors = (req, res, next) => {
+  const errors = validationResult(req);
 
+  if (!errors.isEmpty()) {
+
+
+    return res.status(400).json({ errors: errors.array() });
+
+  }
+
+  next(); 
+};
 const addUserValidator = [
   check('name')
     .notEmpty()
@@ -34,8 +45,8 @@ const addUserValidator = [
   check('password')
     .notEmpty()
     .withMessage('Password is required!')
-    .isLength({ min: 8 })
-    .withMessage('Password must be at least 8 characters long!'),
+    .isLength({ min: 6 })
+    .withMessage('Password must be at least 6 characters long!'),
 
   check('phone')
     .optional()
@@ -62,6 +73,8 @@ const addUserValidator = [
         .json({ errors: errors.array() });
     next();
   },
+   handleValidationErrors 
+
 ];
 
 const updateUserValidator = [
@@ -84,9 +97,10 @@ const updateUserValidator = [
     .withMessage("Name can't contain numbers or special characters!"),
 
   check('email')
-    .optional()
-    .isEmail()
-    .withMessage('Invalid email format!')
+    // .optional()
+    // .isEmail()
+    // .withMessage('Invalid email format!')
+    // .bail()
     .custom(async (value, { req }) => {
       const userId = parseInt(req.params.id, 10);
       const existingUser = await prisma.user.findUnique({
@@ -140,6 +154,8 @@ const updateUserValidator = [
     }
     next();
   },
+  handleValidationErrors 
+
 ];
 
 const deleteUserValidator = [
@@ -168,6 +184,8 @@ const deleteUserValidator = [
     }
     next();
   },
+  handleValidationErrors 
+
 ];
 
 export { addUserValidator, updateUserValidator, deleteUserValidator };

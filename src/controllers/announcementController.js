@@ -4,62 +4,139 @@ import jwt from 'jsonwebtoken';
 
 
 class AnnouncementController {
+  // static async create(req, res) {
+  //   try {
+  //     // Extraction des données de la requête
+  //     const { title, description, price, category_id, publish_date } = req.body;
+
+  //     // Vérifier et décoder le token
+  //     const token = req.header('Authorization')?.replace('Bearer ', '');
+  //     if (!token) {
+  //       return res
+  //         .status(StatusCodes.UNAUTHORIZED)
+  //         .json({ error: 'Authorization token missing!' });
+  //     }
+
+  //     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  //     const user_id = decoded.userId;
+
+  //     // Vérification des champs obligatoires
+  //     if (!title || !description || !price || !category_id || !publish_date) {
+  //       return res
+  //         .status(StatusCodes.BAD_REQUEST)
+  //         .json({ error: 'All fields are required!' });
+  //     }
+
+  //     // Gestion des images uploadées
+  //     const imagePaths = [];
+  //     if (req.files) {
+  //       for (const key in req.files) {
+  //         const file = req.files[key];
+  //         const imageName = `${Date.now()}_${file.name.replace(/\s/g, '_')}`;
+  //         const uploadPath = path.join('uploads', imageName);
+
+  //         // Déplacer le fichier dans le dossier uploads
+  //         await file.mv(uploadPath);
+  //         imagePaths.push(`/uploads/${imageName}`); // URL relative
+  //       }
+  //     }
+
+  //     // Création de l'annonce avec Prisma
+  //     const announcement = await prisma.announcement.create({
+  //       data: {
+  //         title,
+  //         description,
+  //         price: parseFloat(price),
+  //         publish_date: new Date(publish_date),
+  //         status: true,
+  //         category: { connect: { id: parseInt(category_id) } },
+  //         user: { connect: { id: user_id } },
+  //         picture: imagePaths, // Tableau d'images
+  //       },
+  //     });
+
+  //     res.status(StatusCodes.CREATED).json({
+  //       message: 'Announcement created successfully!',
+  //       announcement,
+  //     });
+  //   } catch (error) {
+  //     console.error('Erreur lors de la création de l’annonce :', error);
+  //     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+  //   }
+  // }
+
+
   static async create(req, res) {
     try {
-      
       const {
         title,
         description,
         price,
         category_id,
-        // user_id=null,
-        picture,
         publish_date,
       } = req.body;
-
+  
+      // Récupération et décryptage du token utilisateur
       const token = req.header('Authorization')?.replace('Bearer ', '');
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user_id = decoded.userId;
-        console.log('utilisateur recuper',user_id)     
-    
-
-      if (
-        !title ||
-        !description ||
-        !price ||
-        !category_id ||
-        // !user_id ||
-        !publish_date
-      ) {
+      if (!token) {
+        return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json({ error: 'Authorization token is missing!' });
+      }
+  
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user_id = decoded.userId;
+      console.log('Utilisateur récupéré:', user_id);
+  
+      // Validation des champs requis
+      if (!title || !description || !price || !category_id || !publish_date) {
         return res
           .status(StatusCodes.BAD_REQUEST)
-          .json({ error: 'All fields are required!' });
+          .json({ error: 'Tous les champs obligatoires doivent être remplis!' });
       }
-
+  
+      // Validation du prix et de la date
+      if (isNaN(price) || Number(price) <= 0) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ error: 'Le prix doit être un nombre positif!' });
+      }
+  
+      if (isNaN(Date.parse(publish_date))) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ error: 'La date de publication est invalide!' });
+      }
+  
+      // Création de l'annonce dans la base de données
       const announcement = await prisma.announcement.create({
         data: {
           title,
           description,
-          price,
+          price: parseFloat(price),
           status: true,
           publish_date: new Date(publish_date),
-          category: { connect: { id: category_id } },
-          user: { connect: { id: user_id } },
-          picture: Array.isArray(req.body.picture) ? req.body.picture : [req.body.picture]
+          category: { connect: { id: parseInt(category_id) } },
+          user: { connect: { id: parseInt(user_id) } },
         },
       });
-
+  
       res.status(StatusCodes.CREATED).json({
-        message: 'Announcement created successfully!',
+        message: 'Annonce créée avec succès!',
         announcement,
       });
+  
       console.log('Données reçues pour la création:', req.body);
     } catch (error) {
+      console.error('Erreur lors de la création:', error);
       res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ error: error.message });
+        .json({ error: 'Une erreur est survenue lors de la création de l\'annonce.' });
     }
   }
+  
+
+
 
   static async update(req, res) {
     try {

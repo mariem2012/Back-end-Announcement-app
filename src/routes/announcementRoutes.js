@@ -16,15 +16,15 @@ const router = express.Router();
 router.post(
   '/',
   authMiddleware, // Vérifie l'authentification
-  addAnnouncementValidator,
-  AnnouncementController.create
+  
+  addAnnouncementValidator, AnnouncementController.create
 );
 
 // Mettre à jour une annonce (Annonceur peut modifier ses annonces, Admin tout)
 router.put(
   '/:id',
   authMiddleware,
-  updateAnnouncementValidator,
+  
   AnnouncementController.update
 );
 

@@ -5,21 +5,26 @@ import { validationResult } from 'express-validator';
 import prisma from '../config/prisma.js';
 
 export const registerUser = async (req, res) => {
+  // Validation des données
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { password, name, email, phone, address, role } = req.body;
+  // Extraction des données utilisateur
+  const { password, name, email, phone, address } = req.body;
 
   try {
+    // Vérification si l'email existe déjà
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       return res.status(400).json({ message: 'Cet email est déjà utilisé.' });
     }
 
+    // Hachage du mot de passe
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Création de l'utilisateur
     const user = await prisma.user.create({
       data: {
         password: hashedPassword,
@@ -27,7 +32,7 @@ export const registerUser = async (req, res) => {
         email,
         phone,
         address,
-        role,
+        role: 'ANNONCEUR',
         registration_date: new Date(),
       },
     });
@@ -38,8 +43,9 @@ export const registerUser = async (req, res) => {
       { expiresIn: '24h' }
     );
 
+    // Réponse réussie
     return res.status(201).json({
-      message: 'Utilisateur créé avec succès',
+      message: 'Utilisateur inscrit avec succès',
       token,
       user: {
         id: user.id,
@@ -52,10 +58,17 @@ export const registerUser = async (req, res) => {
       },
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Erreur interne du serveur' });
+    if (err.code === 'P2002') {
+      const targetField = err.meta?.target?.[0]; 
+      return res.status(400).json({
+        message: `Le champ "${targetField}" doit être unique. La valeur fournie est déjà utilisée.`,
+      });
+    }
+    // Gestion générique des erreurs
+    console.error('Erreur lors de l\'inscription :', err);
   }
 };
+
 
 export const loginUser = async (req, res) => {
   const errors = validationResult(req);

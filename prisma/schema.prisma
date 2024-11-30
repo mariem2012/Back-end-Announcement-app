@@ -49,7 +49,7 @@ model Announcement {
   price            Decimal    @db.Decimal(10, 2)
   publish_date     DateTime
   status           Boolean    @default(true)    
-  picture          String[]    @db.Text  
+  picture          String?    @db.Text  
   description      String    @db.Text  
  
  
