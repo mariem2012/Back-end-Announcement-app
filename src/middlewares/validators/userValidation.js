@@ -15,45 +15,50 @@ const handleValidationErrors = (req, res, next) => {
 };
 const addUserValidator = [
   check('name')
-    .notEmpty()
-    .withMessage('Name is required!')
-    .isString()
-    .withMessage("Name can't be a number!")
-    .bail()
-    .isLength({ min: 3 })
-    .withMessage('Name must be at most 3 characters long!')
-    .isLength({ max: 100 })
-    .withMessage('Name must be at most 100 characters long!')
-    .matches(/^[a-zA-Z\s]+$/)
-    .withMessage("Name can't contain numbers or special characters!"),
+  .notEmpty()
+  .withMessage('Le nom est obligatoire !')
+  .isString()
+  .withMessage('Le nom doit être une chaîne de caractères !')
+  .isLength({ min: 3, max: 100 })
+  .withMessage('Le nom doit contenir entre 3 et 100 caractères.')
+  .matches(/^[^\d\s]+$/)
+  .withMessage('Le nom ne doit contenir ni chiffres ni espaces.'),
 
-  check('email')
-    .notEmpty()
-    .withMessage('Email is required!')
-    .isEmail()
-    .withMessage('Invalid email format!')
-    .custom(async (value) => {
-      const existingUser = await prisma.user.findUnique({
-        where: { email: value },
-      });
-      if (existingUser) {
-        throw new Error('Email already exists!');
-      }
-      return true;
-    }),
+check('email')
+  .notEmpty()
+  .withMessage('L\'adresse email est obligatoire !')
+  .isEmail()
+  .withMessage('Veuillez fournir une adresse email valide.')
+  .custom(async (email) => {
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+      throw new Error('Cet email est déjà utilisé.');
+    }
+  }),
 
-  check('password')
-    .notEmpty()
-    .withMessage('Password is required!')
-    .isLength({ min: 6 })
-    .withMessage('Password must be at least 6 characters long!'),
+check('password')
+  .notEmpty()
+  .withMessage('Le mot de passe est obligatoire !')
+  .isLength({ min: 6 })
+  .withMessage('Le mot de passe doit contenir au moins 6 caractères.'),
+  // .matches(/[A-Z]/).withMessage('Le mot de passe doit contenir au moins une majuscule')
+  // .matches(/[a-z]/).withMessage('Le mot de passe doit contenir au moins une minuscule')
+  // .matches(/[0-9]/).withMessage('Le mot de passe doit contenir au moins un chiffre')
+  // .matches(/[\W]/).withMessage('Le mot de passe doit contenir au moins un caractère spécial'),
+
+  check('address')
+  .notEmpty().withMessage("L'adresse est requise")
+  .matches(/^[A-Za-z0-9\s\-\.\#\,]+$/).withMessage("L'adresse ne doit contenir que des lettres, des chiffres, des espaces et certains caractères spéciaux autorisés (-, ., #, ,)")
+  .isLength({ max: 100 }).withMessage("L'adresse ne doit pas dépasser 100 caractères.")
+  .not().matches(/^\d+$/).withMessage("L'adresse ne doit pas être uniquement composée de chiffres."),
 
   check('phone')
-    .optional()
-    .isString()
-    .withMessage('Phone must be a string!')
-    .isLength({ max: 50 })
-    .withMessage('Phone must be at most 50 characters long!')
+    .notEmpty()
+    .withMessage('Le numéro de téléphone est obligatoire !')
+    .isNumeric()
+    .withMessage('Le numéro de téléphone doit contenir uniquement des chiffres.')
+    .isLength({ min: 8, max: 8 })
+    .withMessage('Le numéro de téléphone doit contenir exactement 8 chiffres.')
     .custom(async (value) => {
       if (value) {
         const existingUser = await prisma.user.findUnique({
@@ -96,11 +101,10 @@ const updateUserValidator = [
     .matches(/^[a-zA-Z\s]+$/)
     .withMessage("Name can't contain numbers or special characters!"),
 
-  check('email')
-    // .optional()
-    // .isEmail()
-    // .withMessage('Invalid email format!')
-    // .bail()
+    check('email')
+    .notEmpty().withMessage("L'email est requis") 
+    .isEmail().withMessage('Email invalide') 
+    .normalizeEmail()
     .custom(async (value, { req }) => {
       const userId = parseInt(req.params.id, 10);
       const existingUser = await prisma.user.findUnique({
@@ -117,33 +121,19 @@ const updateUserValidator = [
     .isLength({ min: 8 })
     .withMessage('Password must be at least 8 characters long!'),
 
-  check('phone')
-    .optional()
-    .isString()
-    .withMessage('Phone must be a string!')
-    .isLength({ max: 50 })
-    .withMessage('Phone must be at most 50 characters long!')
-    .custom(async (value, { req }) => {
-      const userId = parseInt(req.params.id, 10);
-      const existingUser = await prisma.user.findUnique({
-        where: { phone: value },
-      });
-      if (existingUser && existingUser.id !== userId) {
-        throw new Error('Phone must be unique!');
-      }
-      return true;
-    }),
 
-  check('address')
-    .isString()
-    .withMessage('Address must be a string!')
-    .isLength({ max: 100 })
-    .withMessage('Address must be at most 100 characters long!'),
+    check('address')
+    .notEmpty().withMessage("L'adresse est requise")
+    .matches(/^[A-Za-z0-9\s\-\.\#\,]+$/).withMessage("L'adresse ne doit contenir que des lettres, des chiffres, des espaces et certains caractères spéciaux autorisés (-, ., #, ,)")
+    .isLength({ max: 100 }).withMessage("L'adresse ne doit pas dépasser 100 caractères.")
+    .not().matches(/^\d+$/).withMessage("L'adresse ne doit pas être uniquement composée de chiffres."),
+  
 
   check('status')
     .optional()
     .isBoolean()
     .withMessage('Status must be a boolean value (true or false)!'),
+    
 
   (req, res, next) => {
     const errors = validationResult(req);

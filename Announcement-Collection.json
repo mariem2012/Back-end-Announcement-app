@@ -1,0 +1,815 @@
+{
+	"info": {
+		"_postman_id": "f2f04654-c220-4a09-8592-c5c583f30e14",
+		"name": "Announcement-Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38098560"
+	},
+	"item": [
+		{
+			"name": "Announcement-Management",
+			"item": [
+				{
+					"name": "GET-Annoncements",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIxLCJlbWFpbCI6InRoaWxsb0BleGFtcGxlLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTczMjI3ODQzNSwiZXhwIjoxNzMyNDUxMjM1fQ.JOVr1iKKZwN5YzUE1ZZy2b14t89TS0MmLAhU94-lgxw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/announcements",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"announcements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET-AnnoncementsById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIxLCJlbWFpbCI6InRoaWxsb0BleGFtcGxlLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTczMjI3ODQzNSwiZXhwIjoxNzMyNDUxMjM1fQ.JOVr1iKKZwN5YzUE1ZZy2b14t89TS0MmLAhU94-lgxw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/announcements/21",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"announcements",
+								"21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST-Announcements",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n    \"title\": \"New Announcement\",\r\n    \"price\": 100,\r\n    \"description\": \"A test announcement\",\r\n    \"categoryId\": 1,\r\n   \"publication_date\": \"2023/03/22 22:12\"\r\n  }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/announcements",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"announcements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE-Annoncements/id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Vente de vetements\",\r\n    \"description\": \"Vélo de route en excellent état, utilisé très peu.\",\r\n    \"price\": 150.00,\r\n    \"category_id\": 2,\r\n    \"user_id\": 5,\r\n    \"picture\": \"\",\r\n    \"latitude\": 48.8566,  \r\n    \"longitude\": 2.3522,   \r\n    \"publication_date\": \"2024-11-01T23:47:51.635Z\"  \r\n}\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/announcements/4",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"announcements",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT-Announcements",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJlbWFpbCI6Imx5QGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzMyNDAyNzcwLCJleHAiOjE3MzI1NzU1NzB9.XlTbPI8FhIwMLsNfvV11mfRtxEt4h0wFLVqs6d4PFGs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n    \"title\": \"New Announcement\",\r\n    \"price\": 100,\r\n    \"description\": \"A test announcement\",\r\n    \"categoryId\": 1,\r\n   \"publication_date\": \"2023/03/22 22:12\"\r\n  }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/announcements/21",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"announcements",
+								"21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET-AnnouncementsByUserId",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n    \"title\": \"New Announcement\",\r\n    \"price\": 100,\r\n    \"description\": \"A test announcement\",\r\n    \"categoryId\": 1,\r\n   \"publication_date\": \"2023/03/22 22:12\"\r\n  }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/announcements/annouceUser/39",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"announcements",
+								"annouceUser",
+								"39"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category-Manangement",
+			"item": [
+				{
+					"name": "GET-Categories",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n    {\r\n        \r\n            \"name\": \"Vacances\",\r\n            \"user_id\": 6\r\n\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/categories",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST-Categories",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n    {\r\n        \r\n            \"name\": \"Vacances\",\r\n            \"user_id\": 6\r\n\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/categories/add",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"categories",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET-CategoriesById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJlbWFpbCI6Imx5QGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzMyNDg4NzM4LCJleHAiOjE3MzI2NjE1Mzh9.EQ747ofTyIi2VxJWZN1qi_DdHndBi5oaJzdQFTd18rc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/categories/16",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"categories",
+								"16"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT-Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJlbWFpbCI6Imx5QGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzMyNDg4NzM4LCJleHAiOjE3MzI2NjE1Mzh9.EQ747ofTyIi2VxJWZN1qi_DdHndBi5oaJzdQFTd18rc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n    {\r\n        \r\n            \"name\": \"Divertissement\"\r\n\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/categories/2",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"categories",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE-CategoryById",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n    {\r\n        \r\n            \"name\": \"Vacances\",\r\n            \"user_id\": 6\r\n\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/categories/34",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"categories",
+								"34"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User-Management",
+			"item": [
+				{
+					"name": "GET-USERSById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"connection": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJlbWFpbCI6Imx5QGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzMyNDUyNDIxLCJleHAiOjE3MzI2MjUyMjF9.IxrXxQe2PGID2RzNH1SKAkeE0b_QE82Fiy76ASQCCmw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/users/36",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"users",
+								"36"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST-USERS",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"connection": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJlbWFpbCI6Imx5QGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzMyNDUyNDIxLCJleHAiOjE3MzI2MjUyMjF9.IxrXxQe2PGID2RzNH1SKAkeE0b_QE82Fiy76ASQCCmw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "   {\r\n     \"name\": \"Assa Camara\",\r\n    \"email\": \"camaraa@example.com\",\r\n    \"password\": \"securePassword123\",\r\n    \"phone\": \"+222 234 4567\",\r\n    \"address\": \"Nouakchott, Mauritanie\"\r\n   }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/users/add",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"users",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET-All/USERS",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"connection": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJlbWFpbCI6Imx5QGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzMyNDAyNzcwLCJleHAiOjE3MzI1NzU1NzB9.XlTbPI8FhIwMLsNfvV11mfRtxEt4h0wFLVqs6d4PFGs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "      {\r\n        \r\n        \"name\": \"Mariem\",\r\n        \"status\": true,\r\n        \"email\": \"mariem@gmail.com\",\r\n        \"phone\": \"+222 45 56 78 67\",\r\n        \"address\": \"Nouakchott, Mauritanie\",\r\n        \"role\": \"ADMIN\",\r\n        \"registration_date\": \"2024-11-13T07:55:00.378Z\",\r\n        \"lat\": null,\r\n        \"lng\": null\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/users/10",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"users",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT-USERS/password",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"connection": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJlbWFpbCI6Imx5QGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzMyNDUyNDIxLCJleHAiOjE3MzI2MjUyMjF9.IxrXxQe2PGID2RzNH1SKAkeE0b_QE82Fiy76ASQCCmw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\r\n     \"name\": \"Warda Zahra\",\r\n    \"email\": \"FFF19@gmail.com\",\r\n    \"password\": \"Fama1235\",\r\n    \"phone\": \"+222 30364174\",\r\n    \"address\": \"Nouakchott, Cite\",\r\n    \"role\" : \"ADMIN\"\r\n   }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/users/100",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"users",
+								"100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT-USERS",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"connection": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJlbWFpbCI6Imx5QGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzMyNDUyNDIxLCJleHAiOjE3MzI2MjUyMjF9.IxrXxQe2PGID2RzNH1SKAkeE0b_QE82Fiy76ASQCCmw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\r\n  \"currentPassword\": \"ly123456\",\r\n  \"newPassword\": \"nouveauPassword\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/users/change-password",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"users",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE-USERS/ID",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"connection": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJlbWFpbCI6Imx5QGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzMyNDUyNDIxLCJleHAiOjE3MzI2MjUyMjF9.IxrXxQe2PGID2RzNH1SKAkeE0b_QE82Fiy76ASQCCmw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/users/12",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"users",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET-USERS/profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJlbWFpbCI6Imx5QGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzMyNDUyNDIxLCJleHAiOjE3MzI2MjUyMjF9.IxrXxQe2PGID2RzNH1SKAkeE0b_QE82Fiy76ASQCCmw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/userprofile",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"userprofile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT-User/profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJlbWFpbCI6Imx5QGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzMyNDUyNDIxLCJleHAiOjE3MzI2MjUyMjF9.IxrXxQe2PGID2RzNH1SKAkeE0b_QE82Fiy76ASQCCmw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/userProfile",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"userProfile"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Le dossier User-Collection regroupe toutes les routes relatives à la gestion des utilisateurs. Cela inclut l'ajout, la modification, la suppression, la récupération des utilisateurs, et la gestion des rôles et statuts.  \nEndpoints disponibles :  \nGET /api/users : Liste des utilisateurs.  \nPOST /api/users : Ajouter un nouvel utilisateur.  \nPUT /api/users/:id : Modifier les informations d'un utilisateur.  \nDELETE /api/users/:id : Supprimer un utilisateur."
+		},
+		{
+			"name": "Authentification",
+			"item": [
+				{
+					"name": "localhost:3500/login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"email\": \"thillo@example.com\",\r\n  \"password\": \"testpassword\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3500/register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Samba\",\r\n    \"email\": \"samba@gmail.com\",\r\n    \"password\": \"ly123456\",\r\n    \"phone\": \"+222 545 7567\",\r\n    \"address\": \"Nouakchott, Mauritanie\"\r\n   }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3500/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3500",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

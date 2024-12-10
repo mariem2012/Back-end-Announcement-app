@@ -227,28 +227,40 @@ class CategoryController {
   }
   
 
-  static async delete(req, res) {
-    const { id } = req.params;
-    try {
+ static async delete(req, res) {
+  const { id } = req.params;
+  try {
+    const categoryId = parseInt(id, 10);
 
-      await prisma.category.delete({
-        where: { id: parseInt(id, 10) },
+    // Vérifier si la catégorie est liée à des annonces
+    const relatedAnnouncements = await prisma.announcement.findMany({
+      where: { category_id: categoryId },
+    });
+
+    if (relatedAnnouncements.length > 0) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        error: `Cette catégorie ne peut pas être supprimée car elle est associée à des annonces existantes.`,
       });
-
-      res
-        .status(StatusCodes.OK)
-        .json({ message: 'Category deleted successfully!' });
-    } catch (error) {
-      if (error.code === 'P2025') {
-        return res
-          .status(StatusCodes.NOT_FOUND)
-          .json({ error: `Category with ID ${id} does not exist.` });
-      }
-      res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ error: error.message });
     }
+
+    // Si pas de relation, procéder à la suppression
+    await prisma.category.delete({
+      where: { id: categoryId },
+    });
+
+    res.status(StatusCodes.OK).json({ message: 'Catégorie supprimée avec succès !' });
+  } catch (error) {
+    if (error.code === 'P2025') {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ error: `Category with ID ${id} does not exist.` });
+    }
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
+}
+
 }
 
 export default CategoryController;

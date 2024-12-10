@@ -1,6 +1,18 @@
 import { check, param, validationResult } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
 import prisma from '../../config/prisma.js';
+const handleValidationErrors = (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+
+
+    return res.status(400).json({ errors: errors.array() });
+
+  }
+
+  next(); 
+};
 
 const addCategoryValidator = [
   check('name')
@@ -13,14 +25,14 @@ const addCategoryValidator = [
     .isLength({ max: 100 })
     .withMessage('Name must be at most 100 characters long!')
     .withMessage('Name must be at most 100 characters long!')
-    .matches(/^[a-zA-Z\s]+$/)
-    .withMessage("Name can't contain numbers or special characters!")
+    .matches(/^[a-zA-ZÀ-ÿ\s'’-]+$/)
+    .withMessage("Le nom de la catégorie ne peut pas contenir de chiffres !")    
     .custom(async (value) => {
       const existingCategory = await prisma.category.findUnique({
         where: { name: value },
       });
       if (existingCategory) {
-        throw new Error('Category name must be unique!');
+        throw new Error('Le nom de la catégorie est unique!');
       }
       return true;
     }),
@@ -45,6 +57,7 @@ const addCategoryValidator = [
     }
     next();
   },
+  handleValidationErrors
 ];
 
 const updateCategoryValidator = [
@@ -63,8 +76,8 @@ const updateCategoryValidator = [
     .withMessage('Name must be at least 3 characters long!')
     .isLength({ max: 100 })
     .withMessage('Name must be at most 100 characters long!')
-    .matches(/^[a-zA-Z\s]+$/)
-    .withMessage("Name can't contain numbers or special characters!")
+    .matches(/^[a-zA-ZÀ-ÿ\s'’-]+$/)
+    .withMessage("Le nom de la catégorie ne peut pas contenir de chiffres !")    
     .custom(async (value, { req }) => {
       const categoryId = parseInt(req.params.id, 10);
       const existingCategory = await prisma.category.findFirst({
@@ -74,7 +87,7 @@ const updateCategoryValidator = [
         },
       });
       if (existingCategory) {
-        throw new Error('Category name must be unique!');
+        throw new Error('Le nom de la catégorie est unique!');
       }
       return true;
     }),
@@ -93,6 +106,7 @@ const updateCategoryValidator = [
     }
     next();
   },
+  handleValidationErrors
 ];
 
 const deleteCategoryValidator = [
@@ -106,6 +120,7 @@ const deleteCategoryValidator = [
     }
     next();
   },
+  handleValidationErrors
 ];
 
 export {
